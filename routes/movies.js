@@ -11,10 +11,15 @@ router.get('/', async function (req, res, next) {
         skip: skip,
         take: take
     })
+    const moviesCount = await prisma.movies.count({
+        select: {
+            _all: true,
+        },
+    })
     res.send({
         data: movies,
         pagination: {
-            count: movies.length, // Total des enregistrements
+            count: moviesCount._all, // Total des enregistrements
             take: take,   // Nombre d'éléments sélectionnés
             skip: skip   // Décalage à partir duquel on prend les  données
         }
